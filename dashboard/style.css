@@ -1,0 +1,346 @@
+:root {
+    /* Clinical Color Palette */
+    --primary-blue: #2c5282;
+    /* Deep, professional blue */
+    --accent-blue: #4299e1;
+    /* Calm, medical blue for data */
+    --text-primary: #1a202c;
+    /* Sharp dark gray/black */
+    --text-secondary: #718096;
+    /* Soft gray for labels */
+    --bg-app: #f7fafc;
+    /* Very light cool gray - sterile field */
+    --bg-card: #ffffff;
+    /* Pure white cards */
+    --border-subtle: #e2e8f0;
+    /* Very light borders */
+
+    /* Layout */
+    --grid-gap: 20px;
+    --app-padding: 24px;
+    --radius-soft: 8px;
+    /* Medical devices often have soft but defined edges */
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    -webkit-font-smoothing: antialiased;
+    /* Crisp text */
+}
+
+/* Screen Management */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--bg-app);
+    transition: opacity 0.3s ease;
+}
+
+.active-screen {
+    display: flex;
+}
+
+/* 1. Splash Screen */
+#splash-screen {
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    /* Start pure white */
+    cursor: pointer;
+}
+
+.splash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* Removed gap for manual control */
+}
+
+.splash-logo {
+    width: 224px;
+    /* 1.4x of 160px */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: -10px;
+    /* Pull text closer if needed, or 0 */
+}
+
+.logo-large {
+    font-size: 2.5rem;
+    font-weight: 300;
+    /* Light weight for elegance */
+    color: var(--primary-blue);
+    letter-spacing: 4px;
+    margin-bottom: 0;
+    /* Tight with subtitle */
+    margin-top: 0;
+}
+
+.splash-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-top: 4px;
+    /* Small space after CALI */
+    letter-spacing: 0.5px;
+}
+
+.tap-hint {
+    font-size: 0.9rem;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 40px;
+    /* Space after subtitle */
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.4;
+    }
+}
+
+/* 2. Dashboard */
+.app-header {
+    height: 64px;
+    padding: 0 var(--app-padding);
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    /* Left align standard for apps usually, or center for title */
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    /* Make whole area clickable */
+}
+
+.header-logo-img {
+    height: 32px;
+    width: auto;
+}
+
+.header-logo {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--primary-blue);
+    letter-spacing: 1px;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap);
+    padding: var(--app-padding);
+    max-width: 1200px;
+    /* Constrain on large screens */
+    margin: 0 auto;
+    width: calc(100% - 2 * var(--app-padding));
+}
+
+/* Tablet/Desktop: 2 cols only on wide screens */
+@media (min-width: 800px) {
+    .sensor-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.sensor-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-soft);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.sensor-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(44, 82, 130, 0.08);
+    /* Blue tinted shadow */
+    border-color: #cbd5e0;
+}
+
+.sensor-card::before {
+    /* Clinical Accent Sidebar */
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent-blue);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.sensor-card:hover::before {
+    opacity: 1;
+}
+
+.sensor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+}
+
+.sensor-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sensor-reading {
+    font-size: 1.5rem;
+    font-weight: 300;
+    /* Light weight looks more precise/medical */
+    color: var(--primary-blue);
+    font-variant-numeric: tabular-nums;
+}
+
+.sparkline-container {
+    height: 60px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.sensor-subtext {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    border-top: 1px solid #f1f5f9;
+    padding-top: 8px;
+    margin-top: auto;
+}
+
+/* 3. Detail View */
+.detail-header {
+    height: 64px;
+    padding: 0 var(--app-padding);
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 12px 8px 0;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: var(--primary-blue);
+}
+
+.detail-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.detail-content {
+    padding: var(--app-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: calc(100% - 2 * var(--app-padding));
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-soft);
+    padding: 24px;
+}
+
+.chart-card {
+    height: 300px;
+    background: #ffffff;
+}
+
+.metrics-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.metric-item {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #edf2f7;
+    text-align: center;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.metric-value {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--primary-blue);
+}
+
+.notes-card h4 {
+    margin: 0 0 12px 0;
+    color: var(--primary-blue);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.clinical-text {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: 0;
+}

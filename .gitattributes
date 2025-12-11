@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*train.csv filter=lfs diff=lfs merge=lfs -text
+S10.pk1 filter=lfs diff=lfs merge=lfs -text
+S10.pkl filter=lfs diff=lfs merge=lfs -text
