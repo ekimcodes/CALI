@@ -69,24 +69,36 @@ body {
     /* Removed gap for manual control */
 }
 
+/* New container for Logo + Text side-by-side */
+.splash-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    /* Space between Logo and Text */
+    margin-bottom: 4px;
+    /* Space before subtitle */
+}
+
 .splash-logo {
-    width: 224px;
-    /* 1.4x of 160px */
+    width: 120px;
+    /* Adjusted size for side-by-side */
     height: auto;
     object-fit: contain;
-    margin-bottom: -10px;
-    /* Pull text closer if needed, or 0 */
+    margin-bottom: 0;
 }
 
 .logo-large {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    /* Slightly larger to balance with icon */
     font-weight: 300;
     /* Light weight for elegance */
     color: var(--primary-blue);
     letter-spacing: 4px;
     margin-bottom: 0;
-    /* Tight with subtitle */
     margin-top: 0;
+    margin-left: -10px;
+    /* Pull closer to logo */
 }
 
 .splash-subtitle {
